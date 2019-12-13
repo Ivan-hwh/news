@@ -16,7 +16,7 @@
         没有账号？
         <a href="#/register" class="">去注册</a>
       </p>
-      <hmbutton text='登录' @click="getdata"></hmbutton>
+      <hmbutton text='登录' @click="login"></hmbutton>
     </div>
   </div>
 </template>
@@ -24,6 +24,7 @@
 <script>
 import hmbutton from '@/components/hm_button.vue'
 import hminput from '@/components/hm_input.vue'
+import { userLogin } from '@/api/users.js'
 export default {
   components: {
     hmbutton, hminput
@@ -37,8 +38,20 @@ export default {
     }
   },
   methods: {
-    getdata (event) {
-      console.log(this.sql)
+    login (event) {
+      userLogin(this.sql)
+        .then(res => {
+          console.log(res)
+          if (res.data.message === '登录成功') {
+
+          } else {
+            this.$toast.fail(res.data.message)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.$toast.fail('登录失败，请重试')
+        })
     }
   }
 }
