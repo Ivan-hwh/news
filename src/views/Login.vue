@@ -43,7 +43,7 @@ export default {
         .then(res => {
           console.log(res)
           if (res.data.message === '登录成功') {
-
+            this.$router.push({ path: `/Personal/${res.data.data.user.id}` })
           } else {
             this.$toast.fail(res.data.message)
           }
