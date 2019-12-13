@@ -10,3 +10,10 @@ export const userLogin = (data) => {
     data
   })
 }
+
+// 获取用户详情
+export const getUserInfo = (id) => {
+  return axios({
+    url: `/user/${id}`
+  })
+}
