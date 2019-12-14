@@ -46,7 +46,7 @@ export default {
             // 存储token值到本地存储
             // localStorage.clear()
             localStorage.setItem('news_token', res.data.data.token)
-            console.log(localStorage)
+            // console.log(localStorage)
             this.$router.push({ path: `/personal/${res.data.data.user.id}` })
             this.$toast.success('登录成功！')
           } else {

@@ -3,12 +3,12 @@
     <router-link to="/edit_profile">
       <div class="profile">
         <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
-        <img src="http://img1.imgtn.bdimg.com/it/u=3757784226,1202878475&fm=26&gp=0.jpg" alt />
+        <img :src=sql.head_img alt />
         <div class="profile-center">
           <div class="name">
-            <span class="iconfont iconxingbienan"></span>我就是我
+            <span class="iconfont iconxingbienan"></span>{{sql.nickname}}
           </div>
-          <div class="time">2019-9-24</div>
+          <div class="time">2019-12-14</div>
         </div>
         <span class="iconfont iconjiantou1"></span>
       </div>
@@ -24,15 +24,25 @@
 import { getUserInfo } from '@/api/users.js'
 import hmcell from '@/components/hm_cell.vue'
 export default {
-  mounted () {
+  async mounted () {
     let id = this.$route.params.id
-    getUserInfo(id)
-      .then(res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    let res = await getUserInfo(id)
+    if (res.data.message === '获取成功') {
+      this.sql = res.data.data
+    } else {
+      this.$toast.fail('用户信息获取失败')
+    }
+    // 获取图片数据并显示到页面
+    if (res.data.data.head_img) {
+      this.sql.head_img = localStorage.getItem('serverUrl') + res.data.data.head_img
+    } else {
+      this.sql.head_img = localStorage.getItem('serverUrl') + '/uploads/image/default.png'
+    }
+  },
+  data () {
+    return {
+      sql: {}
+    }
   },
   components: {
     hmcell

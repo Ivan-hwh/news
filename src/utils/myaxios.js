@@ -3,6 +3,8 @@ import { Toast } from 'vant'
 
 // 配置基准路径
 axios.defaults.baseURL = 'http://localhost:3000'
+// 将基准地址存到本地存储
+localStorage.setItem('serverUrl', axios.defaults.baseURL)
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
