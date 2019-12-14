@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
     // 判断用户是否登录过了
     // localStorage.clear()
     let token = localStorage.getItem('news_token')
-    console.log(token)
+    // console.log(token)
     if (token) {
       next()
     } else {
