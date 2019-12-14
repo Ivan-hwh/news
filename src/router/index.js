@@ -18,12 +18,30 @@ var router = new VueRouter({
       component: Login
     },
     {
-      name: 'Personal',
-      path: '/Personal/:id',
+      name: 'personal',
+      path: '/personal/:id',
       component: Personal
     }
 
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  // next()
+  // console.log(to)
+  if (to.path.indexOf('/personal/') === 0) {
+    // 判断用户是否登录过了
+    // localStorage.clear()
+    let token = localStorage.getItem('news_token')
+    console.log(token)
+    if (token) {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+  } else {
+    next()
+  }
 })
 // 暴露路由
 export default router

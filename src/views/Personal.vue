@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import getUserInfo from '@/api/users.js'
+import { getUserInfo } from '@/api/users.js'
 export default {
   mounted () {
     let id = this.$route.params.id

@@ -43,7 +43,12 @@ export default {
         .then(res => {
           console.log(res)
           if (res.data.message === '登录成功') {
-            this.$router.push({ path: `/Personal/${res.data.data.user.id}` })
+            // 存储token值到本地存储
+            // localStorage.clear()
+            localStorage.setItem('news_token', res.data.data.token)
+            console.log(localStorage)
+            this.$router.push({ path: `/personal/${res.data.data.user.id}` })
+            this.$toast.success('登录成功！')
           } else {
             this.$toast.fail(res.data.message)
           }
