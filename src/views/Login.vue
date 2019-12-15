@@ -32,8 +32,8 @@ export default {
   data () {
     return {
       sql: {
-        username: 'hwh',
-        password: 123456
+        username: '10086',
+        password: '123'
       }
     }
   },
@@ -41,12 +41,11 @@ export default {
     login (event) {
       userLogin(this.sql)
         .then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.data.message === '登录成功') {
             // 存储token值到本地存储
             // localStorage.clear()
             localStorage.setItem('news_token', res.data.data.token)
-            // console.log(localStorage)
             this.$router.push({ path: `/personal/${res.data.data.user.id}` })
             this.$toast.success('登录成功！')
           } else {

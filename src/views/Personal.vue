@@ -1,6 +1,6 @@
 <template>
    <div class="personal">
-    <router-link to="/edit_profile">
+    <router-link :to="'/editUser/'+ this.id">
       <div class="profile">
         <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
         <img :src=sql.head_img alt />
@@ -25,23 +25,27 @@ import { getUserInfo } from '@/api/users.js'
 import hmcell from '@/components/hm_cell.vue'
 export default {
   async mounted () {
+    // 获取当前页面id
     let id = this.$route.params.id
     let res = await getUserInfo(id)
     if (res.data.message === '获取成功') {
+      this.id = this.$route.params.id
       this.sql = res.data.data
+      // 返回的数据可能没有图片数据，那么我们应该进行判断，如果有图片数据，则设置为当前图片，如果没有图片数据则需要设置
+      // 获取图片数据并显示到页面
+      if (res.data.data.head_img) {
+        this.sql.head_img = localStorage.getItem('serverUrl') + res.data.data.head_img
+      } else {
+        this.sql.head_img = localStorage.getItem('serverUrl') + '/uploads/image/default.png'
+      }
     } else {
       this.$toast.fail('用户信息获取失败')
-    }
-    // 获取图片数据并显示到页面
-    if (res.data.data.head_img) {
-      this.sql.head_img = localStorage.getItem('serverUrl') + res.data.data.head_img
-    } else {
-      this.sql.head_img = localStorage.getItem('serverUrl') + '/uploads/image/default.png'
     }
   },
   data () {
     return {
-      sql: {}
+      sql: {},
+      id: ''
     }
   },
   components: {
@@ -51,11 +55,6 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.personal{
-    width: 100vw;
-    height: 100vh;
-    background-color: #eee;
-}
 a{
     color: #666;
 }
