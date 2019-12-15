@@ -11,6 +11,15 @@ export const userLogin = (data) => {
   })
 }
 
+// 处理用户注册业务
+export const userRegister = (data) => {
+  return axios({
+    method: 'post',
+    url: '/register',
+    data
+  })
+}
+
 // 获取用户详情
 export const getUserInfo = (id) => {
   return axios({

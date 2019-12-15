@@ -1,5 +1,5 @@
 <template>
-  <div class="btn" @click="handlerClick">{{text}}</div>
+  <div class="btn" @click="handlerClick" :class="{green:text==='注册'}">{{text}}</div>
 </template>
 
 <script>
@@ -23,5 +23,8 @@ export default {
     color: #fff;
     border-radius: 24*100vw/360;
     font-size: 18px;
+  }
+  .green{
+    background-color: green;
   }
 </style>

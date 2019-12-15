@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
 import Personal from '@/views/Personal.vue'
 import editUser from '@/views/editUser.vue'
+import register from '@/views/register.vue'
 
 // use
 Vue.use(VueRouter)
@@ -13,6 +14,11 @@ Vue.use(VueRouter)
 var router = new VueRouter({
   // 配置路由
   routes: [
+    {
+      name: 'register',
+      path: '/register',
+      component: register
+    },
     {
       name: 'login',
       path: '/login',

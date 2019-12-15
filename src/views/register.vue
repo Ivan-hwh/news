@@ -6,17 +6,18 @@
       <div class="inputs">
         <hminput
          type='text'
-         placeholder='用户名/手机'
+         placeholder='请输入用户名/手机'
          v-model="sql.username"
          :rules='/^1\d{10}$/'
          meg_err='用户名输入错误，请输入11位手机号'></hminput>
-        <hminput type='password' placeholder='密码' v-model="sql.password"></hminput>
+        <hminput type='password' placeholder='请输入密码' v-model="sql.password"></hminput>
+        <hminput placeholder='请输入昵称' v-model="sql.nickname"></hminput>
       </div>
       <p class="tips">
-        没有账号？
-        <a href="#/register" class="">去注册</a>
+        已有账号？
+        <a href="#/login" class="">去登录</a>
       </p>
-      <hmbutton text='登录' @click="login"></hmbutton>
+      <hmbutton text='注册' @click="register"></hmbutton>
     </div>
   </div>
 </template>
@@ -24,7 +25,7 @@
 <script>
 import hmbutton from '@/components/hm_button.vue'
 import hminput from '@/components/hm_input.vue'
-import { userLogin } from '@/api/users.js'
+import { userRegister } from '@/api/users.js'
 export default {
   components: {
     hmbutton, hminput
@@ -32,36 +33,28 @@ export default {
   data () {
     return {
       sql: {
-        username: '10086',
-        password: '123456'
+        username: '',
+        password: '',
+        nickname: ''
       }
     }
   },
   methods: {
-    login (event) {
-      userLogin(this.sql)
-        .then(res => {
-          // console.log(res)
-          if (res.data.message === '登录成功') {
-            // 存储token值到本地存储
-            // localStorage.clear()
-            localStorage.setItem('news_token', res.data.data.token)
-            this.$router.push({ path: `/personal/${res.data.data.user.id}` })
-            this.$toast.success('登录成功！')
-          } else {
-            this.$toast.fail(res.data.message)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          this.$toast.fail('登录失败，请重试')
-        })
+    async register () {
+      let res = await userRegister(this.sql)
+      console.log(res)
+      if (res.data.message === '注册成功') {
+        this.$toast.success('注册成功！')
+        this.$router.push({ path: '/login' })
+      } else {
+        this.$toast.fail('注册失败' + '/n' + '请重试')
+      }
     }
   }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .container {
   padding: 20px;
   background-color: rgb(242,242,242);
