@@ -57,7 +57,7 @@ export default {
     quitUser () {
       this.$toast.success('退出成功！')
       localStorage.removeItem('news_token')
-      this.$router.push({ path: '/login' })
+      this.$router.push({ path: '/' })
     }
   }
 }
