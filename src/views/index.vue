@@ -9,12 +9,21 @@
       </div>
       <van-tabs v-model="active" sticky swipeable animated>
         <van-tab :title="cate.name" v-for="(cate,index) in cateList" :key="index">
-          <articleBlock :post='post' v-for="post in cate.postList" :key="post.id"></articleBlock>
+          <!-- 封装的新闻块组件调用 -->
+          <van-list
+            :immediate-check='false'
+            :offset='10'
+            v-model="cate.loading"
+            :finished="cate.finished"
+            finished-text="真的一滴都没有了"
+            @load="onLoad"
+            >
+            <van-pull-refresh v-model="cate.isLoading" @refresh="onRefresh">
+            <articleBlock :post='post' v-for="post in cate.postList" :key="post.id"></articleBlock>
+            </van-pull-refresh>
+          </van-list>
         </van-tab>
       </van-tabs>
-      <div class="indexContent">
-
-      </div>
   </div>
 </template>
 
@@ -49,12 +58,13 @@ export default {
           ...value,
           postList: [],
           pageIndex: 1,
-          pageSize: 5
-
+          pageSize: 8,
+          loading: false,
+          finished: false,
+          isLoading: false
         }
       })
       this.getData()
-      //   console.log(this.cateList)
     }
   },
   methods: {
@@ -66,8 +76,33 @@ export default {
       })
       // console.log(res1)
       // 将当前激活的栏目中需要渲染到页面的数据内容保存到postList中
-      this.cateList[this.active].postList = res1.data.data
-      console.log(this.cateList[this.active].postList)
+      this.cateList[this.active].postList.push(...res1.data.data)
+      // 重置loading 便于下次的上拉加载
+      this.cateList[this.active].loading = false
+      // 当新闻数据已全部加载完毕 重置finisher值为true
+      if (res1.data.data.length < this.cateList[this.active].pageSize) {
+        this.cateList[this.active].finished = true
+      }
+      this.cateList[this.active].isLoading = false
+    },
+    // vant-list列表触发的加载时间
+    onLoad () {
+      this.cateList[this.active].pageIndex++
+      setTimeout(() => {
+        this.getData()
+      }, 3000)
+    },
+    onRefresh () {
+      // 重置页码为1
+      this.cateList[this.active].pageIndex = 1
+      // 重置finished状态为false,不然在刷新之后 页面处于finished=true状态，无法加载后置页的新闻数据
+      this.cateList[this.active].finished = false
+      setTimeout(() => {
+        // 在刷新加载新的新闻数据之前 清空原来的新闻数据
+        this.cateList[this.active].postList.length = 0
+        // 获取新的新闻数据
+        this.getData()
+      }, 2000)
     }
   }
 }
