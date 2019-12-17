@@ -8,6 +8,7 @@ import Personal from '@/views/Personal.vue'
 import editUser from '@/views/editUser.vue'
 import register from '@/views/register.vue'
 import index from '@/views/index.vue'
+import articleDetail from '@/views/articleDetail.vue'
 
 // use
 Vue.use(VueRouter)
@@ -39,6 +40,11 @@ var router = new VueRouter({
       name: 'editUser',
       path: '/editUser/:id',
       component: editUser
+    },
+    {
+      name: 'articleDetail',
+      path: '/articleDetail/:id',
+      component: articleDetail
     }
 
   ]

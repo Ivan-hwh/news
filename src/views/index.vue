@@ -74,7 +74,7 @@ export default {
         pageSize: this.cateList[this.active].pageSize,
         category: this.cateList[this.active].id
       })
-      console.log(res1)
+      // console.log(res1)
       // 将当前激活的栏目中需要渲染到页面的数据内容保存到postList中
       this.cateList[this.active].postList.push(...res1.data.data)
       // 重置loading 便于下次的上拉加载

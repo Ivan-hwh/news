@@ -1,5 +1,6 @@
 <template>
-  <div class="single" v-if="post.cover.length <= 2 && post.type === 1">
+  <div @click="$router.push(`/articleDetail/${post.id}`)">
+    <div class="single" v-if="post.cover.length <= 2 && post.type === 1">
     <div class="left">
       <p class="content">{{ post.title }}</p>
       <p class="info">
@@ -35,6 +36,7 @@
       <span>{{ post.user.nickname }}</span>
       <span>{{ post.comment_length }}跟帖</span>
     </p>
+  </div>
   </div>
 </template>
 
