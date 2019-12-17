@@ -5,7 +5,7 @@
           <div class="center">
               <van-icon name="search" />搜索新闻
           </div>
-          <van-icon name="contact" class="icon"/>
+          <van-icon name="contact" class="icon" @click="jumpPersonal"/>
       </div>
       <van-tabs v-model="active" sticky swipeable animated>
         <van-tab :title="cate.name" v-for="(cate,index) in cateList" :key="index">
@@ -74,7 +74,7 @@ export default {
         pageSize: this.cateList[this.active].pageSize,
         category: this.cateList[this.active].id
       })
-      // console.log(res1)
+      console.log(res1)
       // 将当前激活的栏目中需要渲染到页面的数据内容保存到postList中
       this.cateList[this.active].postList.push(...res1.data.data)
       // 重置loading 便于下次的上拉加载
@@ -85,13 +85,15 @@ export default {
       }
       this.cateList[this.active].isLoading = false
     },
-    // vant-list列表触发的加载时间
+    // vant-list列表触发的加载事件
     onLoad () {
       this.cateList[this.active].pageIndex++
       setTimeout(() => {
         this.getData()
+        this.$toast.success('加载成功')
       }, 3000)
     },
+    // vant-pull-refresh触发的刷新事件
     onRefresh () {
       // 重置页码为1
       this.cateList[this.active].pageIndex = 1
@@ -102,7 +104,12 @@ export default {
         this.cateList[this.active].postList.length = 0
         // 获取新的新闻数据
         this.getData()
+        this.$toast.success('刷新成功')
       }, 2000)
+    },
+    // 点击图标跳转个人中心页面
+    jumpPersonal () {
+      this.$router.push({ path: `/personal/${localStorage.getItem('userId')}` })
     }
   }
 }
