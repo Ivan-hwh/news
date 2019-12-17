@@ -58,7 +58,7 @@ export default {
           ...value,
           postList: [],
           pageIndex: 1,
-          pageSize: 8,
+          pageSize: 5,
           loading: false,
           finished: false,
           isLoading: false
