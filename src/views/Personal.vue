@@ -15,7 +15,7 @@
     </router-link>
     <hmcell title="我的关注" desc='关注的用户' @click="$router.push({name: 'myFollows'})"></hmcell>
     <hmcell title="我的跟帖" desc='跟帖/回复'></hmcell>
-    <hmcell title="我的收藏" desc='文章/视频'></hmcell>
+    <hmcell title="我的收藏" desc='文章/视频' @click="$router.push({name: 'myCollections'})"></hmcell>
     <hmcell title="设置"></hmcell>
     <hmbutton @click="quitUser" text='退出'></hmbutton>
   </div>

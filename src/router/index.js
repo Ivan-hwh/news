@@ -10,6 +10,7 @@ import register from '@/views/register.vue'
 import index from '@/views/index.vue'
 import articleDetail from '@/views/articleDetail.vue'
 import myFollows from '@/views/myFollows.vue'
+import myCollections from '@/views/myCollections.vue'
 
 // use
 Vue.use(VueRouter)
@@ -51,6 +52,11 @@ var router = new VueRouter({
       name: 'myFollows',
       path: '/myFollows',
       component: myFollows
+    },
+    {
+      name: 'myCollections',
+      path: 'myCollections',
+      component: myCollections
     }
 
   ]
