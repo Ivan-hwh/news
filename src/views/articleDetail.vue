@@ -44,12 +44,14 @@
       </div>
       <div class="more">更多跟帖</div>
     </div>
+    <articleFooter :artContent='artContent'></articleFooter>
   </div>
 </template>
 
 <script>
 import { getArticleDetail, articleZan } from '@/api/article.js'
 import { followUser, unFollowUser } from '@/api/users.js'
+import articleFooter from '@/components/hm_articlefooter.vue'
 export default {
   async mounted () {
     let id = this.$route.params.id
@@ -59,6 +61,9 @@ export default {
     }
     // console.log(res)
     // 根据id获取文章的详情，实现文章详情的动态渲染
+  },
+  components: {
+    articleFooter
   },
   data () {
     return {
@@ -94,6 +99,9 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.articaldetail{
+  padding-bottom: 50px;
+}
 /deep/.photo{
     img{
         display: block;
