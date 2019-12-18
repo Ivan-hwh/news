@@ -31,16 +31,16 @@
     <!-- 精彩跟帖 -->
     <div class="keeps">
       <h2>精彩跟帖</h2>
-      <div class="item">
+      <div class="item" v-for="item in commentList" :key="item.id">
         <div class="head">
-          <img src="../assets/logo.png" alt />
+          <img :src="item.user.head_img" alt />
           <div>
-            <p>火星网友</p>
+            <p>{{item.user.nickname}}</p>
             <span>2小时前</span>
           </div>
           <span>回复</span>
         </div>
-        <div class="text">文章说得很有道理</div>
+        <div class="text">{{item.content}}</div>
       </div>
       <div class="more">更多跟帖</div>
     </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { getArticleDetail, articleZan } from '@/api/article.js'
+import { getArticleDetail, articleZan, userComments } from '@/api/article.js'
 import { followUser, unFollowUser } from '@/api/users.js'
 import articleFooter from '@/components/hm_articlefooter.vue'
 export default {
@@ -59,7 +59,15 @@ export default {
     if (res.status === 200) {
       this.artContent = res.data.data
     }
+    let res1 = await userComments(id)
+    console.log(res1)
     // console.log(res)
+    if (res1.status === 200) {
+      this.commentList = res1.data.data.map((value) => {
+        value.user.head_img = localStorage.getItem('serverUrl') + value.user.head_img
+        return value
+      })
+    }
     // 根据id获取文章的详情，实现文章详情的动态渲染
   },
   components: {
@@ -67,7 +75,8 @@ export default {
   },
   data () {
     return {
-      artContent: {}
+      artContent: {},
+      commentList: []
     }
   },
   methods: {

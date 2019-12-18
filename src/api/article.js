@@ -28,3 +28,10 @@ export const articleZan = (id) => {
     url: `/post_like/${id}`
   })
 }
+
+// 评论列表
+export const userComments = (id) => {
+  return axios({
+    url: `/post_comment/${id}`
+  })
+}
