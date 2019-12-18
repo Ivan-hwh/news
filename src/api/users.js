@@ -49,3 +49,10 @@ export const unFollowUser = (id) => {
     url: `/user_unfollow/${id}`
   })
 }
+
+// 用户关注列表
+export const userFollows = () => {
+  return axios({
+    url: '/user_follows'
+  })
+}
