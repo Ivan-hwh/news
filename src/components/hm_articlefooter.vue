@@ -75,6 +75,7 @@ export default {
         height: 24px;
         line-height: 24px;
         padding: 0 10px;
+        margin: 10px 0 ;
         background-color: #f00;
         color:#fff;
         text-align: center;

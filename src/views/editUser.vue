@@ -18,8 +18,8 @@
     </van-dialog>
     <hmcell title="密码" desc="******" @click="passshow = !passshow"></hmcell>
     <van-dialog v-model="passshow" title="修改密码" show-cancel-button @confirm="editPwd" :before-close="beforeClose">
-      <van-field required label="原密码" placeholder="请输入原密码" ref="oldPwd"/>
-      <van-field required label="新密码" placeholder="请输入新密码(3~16位)" ref="newPwd"/>
+      <van-field :type="typeOld" :value='fieldOldValue' right-icon="eye-o" @click-right-icon='clickOldPwdRightIcon' required label="原密码" placeholder="请输入原密码" ref="oldPwd"/>
+      <van-field :type="typeNew" :value='fieldNewValue' right-icon="eye-o" @click-right-icon='clickNewPwdRightIcon' required label="新密码" placeholder="请输入新密码(3~16位)" ref="newPwd"/>
     </van-dialog>
     <hmcell title="性别" v-if="sql.gender === 1" desc="男" @click="showgender"></hmcell>
     <hmcell title="性别" v-if="sql.gender === 0" desc="女" @click="showgender"></hmcell>
@@ -43,7 +43,11 @@ export default {
       nickshow: false,
       gendershow: false,
       columns: ['男', '女'],
-      passshow: false
+      passshow: false,
+      typeOld: 'password',
+      typeNew: 'password',
+      fieldOldValue: '',
+      fieldNewValue: ''
     }
   },
   // 组件注册
@@ -176,6 +180,14 @@ export default {
       } else {
         done()
       }
+    },
+    clickOldPwdRightIcon (event) {
+      this.typeOld === 'password' ? this.typeOld = 'text' : this.typeOld = 'password'
+      this.fieldOldValue = this.$refs.oldPwd.$refs.input.value
+    },
+    clickNewPwdRightIcon (event) {
+      this.typeNew === 'password' ? this.typeNew = 'text' : this.typeNew = 'password'
+      this.fieldNewValue = this.$refs.newPwd.$refs.input.value
     }
   }
 }
