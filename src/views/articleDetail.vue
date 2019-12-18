@@ -20,8 +20,8 @@
         <video v-if="artContent.type === 2" :src='artContent.content' controls autoplay
         poster='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1576598144710&di=d823c6c8125cc6cd4fbcbfa91b330878&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fc_fill%2Cw_600%2Ch_300%2Cg_faces%2Fimages%2F20190410%2F0e4f347bc8a142c3a223f4937818e992.jpeg'></video>
       <div class="opt">
-        <span class="like">
-          <van-icon name="good-job-o" />点赞{{artContent.like_length}}
+        <span class="like" @click="likeThisArticle" :class="{active:artContent.has_like}">
+          <van-icon name="good-job-o" />{{artContent.like_length}}
         </span>
         <span class="chat">
           <van-icon name="chat" class="w" />微信
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getArticleDetail } from '@/api/article.js'
+import { getArticleDetail, articleZan } from '@/api/article.js'
 import { followUser, unFollowUser } from '@/api/users.js'
 export default {
   async mounted () {
@@ -66,6 +66,7 @@ export default {
     }
   },
   methods: {
+    // 关注和取消关注
     async followThisUser () {
       let res
       if (!this.artContent.has_follow) {
@@ -75,6 +76,18 @@ export default {
       }
       this.$toast.success(res.data.message)
       this.artContent.has_follow = !this.artContent.has_follow
+    },
+    // 点赞和取消点赞
+    async likeThisArticle () {
+      let res = await articleZan(this.artContent.id)
+      // console.log(res)
+      if (res.data.message === '点赞成功') {
+        this.artContent.like_length++
+      } else if (res.data.message === '取消成功') {
+        this.artContent.like_length--
+      }
+      this.$toast.success(res.data.message)
+      this.artContent.has_like = !this.artContent.has_like
     }
   }
 }
@@ -162,6 +175,10 @@ video{
   .w {
     color: rgb(84, 163, 5);
   }
+}
+.active {
+  color: red;
+  border: 1px solid red!important
 }
 .keeps {
   border-top: 5px solid #ddd;

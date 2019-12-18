@@ -14,3 +14,17 @@ export const getArticleDetail = (id) => {
     url: `/post/${id}`
   })
 }
+
+// 文章收藏
+export const articleCollect = (id) => {
+  return axios({
+    url: `/post_star/${id}`
+  })
+}
+
+// 文章点赞
+export const articleZan = (id) => {
+  return axios({
+    url: `/post_like/${id}`
+  })
+}
