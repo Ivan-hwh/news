@@ -30,8 +30,9 @@ export const articleZan = (id) => {
 }
 
 // 评论列表
-export const userComments = (id) => {
+export const userComments = (id, params) => {
   return axios({
-    url: `/post_comment/${id}`
+    url: `/post_comment/${id}`,
+    params
   })
 }
